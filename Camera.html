@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Camera Services — Ashok Travel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#02131f; --card:#0a1e2d; --muted:#98a8b9;
+      --accent1:#7c3aed; --accent2:#06b6d4;
+      --radius:18px;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;font-family:Inter, sans-serif;}
+
+    body{
+      background:linear-gradient(rgba(0,0,0,.65),rgba(0,0,0,.65)),
+        url("https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1400&q=80");
+      background-size:cover;
+      background-position:center;
+      color:white;
+    }
+
+    header{
+      padding:20px 40px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      background:rgba(0,0,0,0.4);
+      backdrop-filter:blur(8px);
+      position:sticky;
+      top:0;
+    }
+
+    nav a{
+      text-decoration:none;
+      color:#d8e7f7;
+      margin-left:20px;
+      padding:6px 12px;
+      border-radius:10px;
+    }
+    nav a:hover{
+      background:rgba(255,255,255,0.1);
+    }
+
+    .btn-primary{
+      background:linear-gradient(90deg,var(--accent1),var(--accent2));
+      padding:10px 18px;
+      border-radius:12px;
+      color:white;text-decoration:none;
+    }
+
+    .hero{
+      text-align:center;
+      padding:120px 30px 80px;
+    }
+    .hero h1{
+      font-size:48px;
+      font-weight:800;
+    }
+    .hero p{
+      font-size:18px;
+      color:#cbd7e6;
+      max-width:680px;
+      margin:auto;
+      margin-top:10px;
+    }
+
+    .section{
+      padding:60px 30px;
+      max-width:1200px;
+      margin:auto;
+    }
+    .title{
+      font-size:32px;
+      margin-bottom:20px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:22px;
+    }
+
+    .card{
+      background:rgba(0,0,0,0.45);
+      padding:16px;
+      border-radius:18px;
+      backdrop-filter:blur(6px);
+      box-shadow:0 0 25px rgba(0,0,0,.35);
+      transition:0.25s;
+    }
+    .card:hover{
+      transform:translateY(-5px);
+    }
+    .card img{
+      width:100%;
+      height:180px;
+      object-fit:cover;
+      border-radius:14px;
+    }
+    .card h3{
+      margin:12px 0 6px;
+    }
+    .card p{
+      color:#cfdcec;
+      font-size:15px;
+    }
+
+    footer{
+      text-align:center;
+      padding:20px;
+      color:#b8c8d8;
+      margin-top:40px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <header>
+    <div style="font-size:22px;font-weight:800;">Ashok Travel</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="camera.html">Camera Setup</a>
+      <a href="vehicles.html">Vehicles</a>
+      <a class="btn-primary" href="#book">Book Now</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1>Professional Camera & Drone Services</h1>
+    <p>High-end filmmaking gear, drone shoots, cinematic video production, and premium photography for travel & events.</p>
+  </section>
+
+  <!-- CAMERA GRID -->
+  <section class="section">
+    <h2 class="title">Cinematic Cameras</h2>
+
+    <div class="grid">
+
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=800&q=80">
+        <h3>4K Videographer Camera</h3>
+        <p>Professional video shooting • Stabilized rigs • Ultra clarity.</p>
+      </div>
+
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1519183071298-a2962be96e49?auto=format&fit=crop&w=800&q=80">
+        <h3>Photographer DSLR Camera</h3>
+        <p>Premium still shots • Events • Travel photography.</p>
+      </div>
+
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&w=800&q=80">
+        <h3>Drone Camera (Aerial)</h3>
+        <p>4K drone footage • Top view shots • Cinematic travel videos.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    © 2025 Ashok Travel — Premium Camera & Drone Services
+  </footer>
+
+</body>
+</html>
