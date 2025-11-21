@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Ashok Travel</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#04121b; --card:#071827; --muted:#b7c6d6; --accent1:#fbbf24; --accent2:#f59e0b;
+  --glass:rgba(255,255,255,0.05);
+  --radius:18px;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
+body{
+  background:#021017;
+  color:white;
+  background-image:url('https://images.unsplash.com/photo-1533106418989-88406c7cc8ca?auto=format&fit=crop&w=1600&q=80');
+  background-size:cover;
+  background-attachment:fixed;
+}
+
+/* Navbar */
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:22px 40px;
+  backdrop-filter:blur(12px);
+  background:rgba(0,0,0,0.35);
+}
+.logo{
+  background:linear-gradient(135deg,var(--accent1),var(--accent2));
+  width:55px;height:55px;border-radius:14px;
+  display:flex;justify-content:center;align-items:center;
+  font-weight:800;font-size:20px;color:black;
+}
+nav a{
+  color:#fff;text-decoration:none;margin:0 14px;
+  padding:8px 14px;border-radius:12px;
+}
+nav a:hover{
+  background:var(--glass);
+}
+.btn{
+  background:linear-gradient(90deg,var(--accent1),var(--accent2));
+  padding:10px 18px;border-radius:12px;color:#000;text-decoration:none;font-weight:700;
+}
+
+/* Hero */
+.hero{
+  text-align:center;
+  padding:120px 20px 80px;
+  background:rgba(0,0,0,0.45);
+  backdrop-filter:blur(6px);
+}
+.hero h1{
+  font-size:48px;font-weight:800;margin-bottom:14px;
+}
+.hero p{
+  color:var(--muted);font-size:18px;max-width:700px;margin:auto;
+}
+
+/* About Content */
+.section{
+  max-width:1100px;
+  margin:40px auto;
+  padding:20px;
+}
+.card{
+  background:rgba(0,0,0,0.55);
+  backdrop-filter:blur(12px);
+  padding:30px;border-radius:var(--radius);
+  margin-bottom:24px;
+  box-shadow:0 8px 30px rgba(0,0,0,0.5);
+}
+.card h2{
+  margin-bottom:14px;font-size:30px;
+}
+.card p{
+  color:#d8e3ee;line-height:1.7;
+}
+
+/* Footer */
+footer{
+  text-align:center;padding:20px;color:#d1d1d1;
+  margin-top:40px;background:rgba(0,0,0,0.6);
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">AT</div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="camera.html">Camera</a>
+    <a href="vehicles.html">Vehicles</a>
+    <a class="btn" href="contact.html">Book Now</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>About Ashok Travel</h1>
+  <p>Premium luxury trips, curated desert experiences, mountain adventures & signature hospitality.</p>
+</section>
+
+<div class="section">
+
+  <div class="card">
+    <h2>Who We Are</h2>
+    <p>
+      Ashok Travel brings you the most premium and luxurious travel experience across Rajasthan
+      and India's most beautiful locations.  
+      From **Jaisalmer desert safaris** to **luxury mountain retreats**, we craft unforgettable journeys.
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>Our Expertise</h2>
+    <p>
+      • Luxury desert camps  
+      • Premium hotel bookings  
+      • Private cab & 4×4 vehicles  
+      • Wedding shoots & cinematic camera services  
+      • Customized tour packages  
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>Why Choose Us?</h2>
+    <p>
+      We blend adventure with luxury. Our mission is to make your travel extraordinary with
+      comfort, safety, hospitality and aesthetic experiences.
+    </p>
+  </div>
+
+</div>
+
+<footer>
+  © 2025 Ashok Travel — All Rights Reserved
+</footer>
+
+</body>
+</html>
