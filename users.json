@@ -1,0 +1,9 @@
+{
+  "users": [
+    {
+      "username": "admin",
+      "role": "admin",
+      "note": "use GitHub token for auth; create other users here if needed"
+    }
+  ]
+}
