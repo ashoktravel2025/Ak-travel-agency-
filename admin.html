@@ -1,109 +1,628 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
-    <meta charset="UTF-8">
-    <title>Admin Panel - Trip Manager</title>
-    <style>
-        body {
-            font-family: Arial;
-            padding: 20px;
-        }
-        input, textarea {
-            width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-        }
-        button {
-            padding: 12px;
-            width: 100%;
-            background: #0066ff;
-            color: white;
-            border: none;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        button:hover {
-            background: #004ecc;
-        }
-    </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Admin Panel - AK Travel Agency</title>
+<style>
+  body{font-family:Inter,Arial;background:#0b1220;color:#e6eef8;padding:18px}
+  h1{margin:0 0 12px}
+  .row{display:flex;gap:12px;flex-wrap:wrap}
+  .card{background:#071027;border-radius:10px;padding:12px;min-width:280px;flex:1;box-shadow:0 6px 18px rgba(2,6,23,0.6)}
+  input,textarea,select,button{width:100%;padding:8px;margin:6px 0;border-radius:6px;border:1px solid #1f3250;background:#061226;color:#fff}
+  label{font-weight:700;font-size:13px}
+  .small{font-size:12px;color:#9fb0d2}
+  .btn{background:#3b82f6;border:none;padding:10px;color:#fff;font-weight:800;cursor:pointer}
+  .danger{background:#ef4444}
+  .inline{display:inline-block;width:auto}
+  .list{max-height:260px;overflow:auto;padding:6px;border-radius:6px;border:1px solid #16263b}
+  pre{white-space:pre-wrap;background:#031224;padding:8px;border-radius:6px;color:#8fb7ff}
+</style>
 </head>
 <body>
 
-<h2>Trip Add Karne Ka Admin Panel</h2>
+<h1>Admin Panel — AK Travel Agency</h1>
+<p class="small">Token required for GitHub write operations. Token is stored in browser localStorage only.</p>
 
-<label>GitHub Token:</label>
-<input id="token" type="password" placeholder="Personal Access Token">
+<div class="row">
+  <!-- AUTH / TOKEN -->
+  <div class="card" style="max-width:360px">
+    <label>GitHub Username</label>
+    <input id="gh_user" placeholder="ashoktravel2025" />
+    <label>GitHub Repo</label>
+    <input id="gh_repo" placeholder="Ak-travel-agency-" />
+    <label>Personal Access Token</label>
+    <input id="gh_token" type="password" placeholder="ghp_xxx..." />
+    <button class="btn" onclick="saveToken()">Save Token (Local)</button>
+    <div style="margin-top:8px;">
+      <button class="btn inline" onclick="logoutToken()">Logout Token</button>
+      <button class="btn inline" onclick="testAuth()">Test Auth</button>
+    </div>
+    <p class="small">Token scope: repo (public_repo) or repo if private. See instructions below.</p>
+  </div>
 
-<label>Trip Name:</label>
-<input id="tripName">
+  <!-- QUICK BACKUP/RESTORE -->
+  <div class="card">
+    <label>Backup / Export</label>
+    <div class="small">Download all JSON files as backup</div>
+    <button class="btn" onclick="exportBackup()">Export All (ZIP)</button>
 
-<label>Price:</label>
-<input id="price">
+    <label>Restore / Import JSON</label>
+    <div class="small">Choose a JSON file to restore specific file (must contain valid structure)</div>
+    <input type="file" id="restoreFile" accept=".json" />
+    <button class="btn" onclick="restoreFile()">Restore Selected</button>
+  </div>
+</div>
 
-<label>Location:</label>
-<input id="location">
+<br/>
 
-<label>Description:</label>
-<textarea id="description" rows="4"></textarea>
+<div class="row">
+  <!-- SITE SETTINGS -->
+  <div class="card">
+    <h3>Website Settings</h3>
+    <label>Site Name</label>
+    <input id="siteName" />
+    <label>Logo URL</label>
+    <input id="logoUrl" placeholder="https://..." />
+    <label>Theme</label>
+    <select id="themeSelect">
+      <option value="dark">Dark</option>
+      <option value="light">Light</option>
+    </select>
 
-<label>Image URL:</label>
-<input id="image">
+    <label>Homepage Sections (toggles)</label>
+    <div style="display:flex;gap:8px">
+      <label class="small inline"><input type="checkbox" id="heroOn" /> Hero</label>
+      <label class="small inline"><input type="checkbox" id="aboutOn" /> About</label>
+      <label class="small inline"><input type="checkbox" id="servicesOn" /> Services</label>
+      <label class="small inline"><input type="checkbox" id="galleryOn" /> Gallery</label>
+      <label class="small inline"><input type="checkbox" id="testimonialsOn" /> Testimonials</label>
+      <label class="small inline"><input type="checkbox" id="contactOn" /> Contact</label>
+    </div>
 
-<button onclick="addTrip()">Add Trip</button>
+    <label>Popup</label>
+    <input id="popupText" placeholder="Popup message..." />
+    <input id="popupImage" placeholder="Popup image URL..." />
+    <label><input type="checkbox" id="popupEnabled" /> Popup Enabled</label>
+
+    <label>Footer: Email</label>
+    <input id="footerEmail" />
+    <label>Footer: Phone</label>
+    <input id="footerPhone" />
+    <label>Footer: Address</label>
+    <input id="footerAddress" />
+    <label>Social (WhatsApp)</label>
+    <input id="footerWhatsapp" placeholder="https://wa.me/..." />
+
+    <label>SEO Title</label>
+    <input id="seoTitle" />
+    <label>SEO Description</label>
+    <textarea id="seoDesc"></textarea>
+    <label>SEO Keywords (comma separated)</label>
+    <input id="seoKeys" />
+
+    <div style="margin-top:8px">
+      <button class="btn" onclick="loadSettings()">Load Settings</button>
+      <button class="btn" onclick="saveSettings()">Save Settings</button>
+      <button class="btn danger" onclick="toggleMaintenance()">Toggle Maintenance Mode</button>
+    </div>
+  </div>
+
+  <!-- SLIDER MANAGER -->
+  <div class="card">
+    <h3>Slider / Banner Manager</h3>
+    <label>Slide Image URL</label>
+    <input id="slideImage" placeholder="https://..." />
+    <label>Slide Title</label>
+    <input id="slideTitle" />
+    <label>Slide Subtitle</label>
+    <input id="slideSub" />
+    <button class="btn" onclick="addSlide()">Add Slide</button>
+    <h4>Existing Slides</h4>
+    <div class="list" id="slidesList"></div>
+    <div style="margin-top:8px"><button class="btn" onclick="loadSlides()">Refresh Slides</button></div>
+  </div>
+</div>
+
+<br/>
+
+<div class="row">
+  <!-- SERVICES MANAGER -->
+  <div class="card">
+    <h3>Services / Trips Manager</h3>
+    <label>Trip Name</label>
+    <input id="tripName" />
+    <label>Price (number)</label>
+    <input id="tripPrice" />
+    <label>Location</label>
+    <input id="tripLocation" />
+    <label>Description</label>
+    <textarea id="tripDesc"></textarea>
+    <label>Image URL</label>
+    <input id="tripImage" placeholder="https://..." />
+    <button class="btn" onclick="addService()">Add Service / Trip</button>
+    <h4>Existing Services</h4>
+    <div class="list" id="servicesList"></div>
+    <button class="btn" onclick="loadServices()">Refresh Services</button>
+  </div>
+
+  <!-- GALLERY MANAGER -->
+  <div class="card">
+    <h3>Gallery Manager</h3>
+    <label>Image URL</label>
+    <input id="galleryImage" placeholder="https://..." />
+    <label>Caption</label>
+    <input id="galleryCaption" />
+    <button class="btn" onclick="addGalleryImage()">Add Image</button>
+    <h4>Gallery</h4>
+    <div class="list" id="galleryList"></div>
+    <button class="btn" onclick="loadGallery()">Refresh Gallery</button>
+  </div>
+</div>
+
+<br/>
+
+<div class="row">
+  <!-- BLOG MANAGER -->
+  <div class="card">
+    <h3>Blog / News</h3>
+    <label>Title</label><input id="postTitle" />
+    <label>Excerpt</label><input id="postExcerpt" />
+    <label>Content (HTML allowed)</label><textarea id="postContent"></textarea>
+    <label>Thumbnail URL</label><input id="postThumb" />
+    <button class="btn" onclick="addPost()">Add Post</button>
+    <h4>Existing Posts</h4>
+    <div class="list" id="postsList"></div>
+    <button class="btn" onclick="loadPosts()">Refresh Posts</button>
+  </div>
+
+  <!-- CONTACT MESSAGES -->
+  <div class="card">
+    <h3>Contact Messages</h3>
+    <div class="small">Website contact messages (read/delete)</div>
+    <div class="list" id="messagesList"></div>
+    <div style="margin-top:8px">
+      <button class="btn" onclick="loadMessages()">Refresh</button>
+      <button class="btn danger" onclick="clearMessages()">Clear All</button>
+    </div>
+  </div>
+</div>
+
+<br/>
+
+<div class="row">
+  <!-- USERS & Notifications -->
+  <div class="card">
+    <h3>Users & Notifications</h3>
+    <label>New Username</label><input id="newUserName" />
+    <label>Role</label><select id="newUserRole"><option>admin</option><option>editor</option></select>
+    <button class="btn" onclick="addUser()">Add User</button>
+
+    <h4>Users</h4>
+    <div class="list" id="usersList"></div>
+    <button class="btn" onclick="loadUsers()">Refresh Users</button>
+  </div>
+
+  <!-- Backup / Logs -->
+  <div class="card">
+    <h3>Logs & Utilities</h3>
+    <button class="btn" onclick="showAllFiles()">Show All JSON (console)</button>
+    <div style="margin-top:8px">
+      <label>Custom Notification</label>
+      <input id="notifyText" placeholder="New user registered..." />
+      <button class="btn" onclick="sendNotification()">Send Notification</button>
+    </div>
+    <h4>Quick Help</h4>
+    <pre id="help">
+- Upload images: paste image URL OR use image upload (future)
+- Token required for writes
+- Keep backups before big changes
+    </pre>
+  </div>
+</div>
 
 <script>
-async function addTrip() {
-    const token = document.getElementById("token").value;
+/*
+  Admin JS: CRUD wrapper for multiple JSON files via GitHub API
+  - stores token in localStorage: 'gh_token'
+  - expects username & repo fields filled
+  - basic no-auth UI; security: token in browser only
+*/
 
-    if (!token) {
-        alert("Token daal bhai (GitHub Personal Access Token)");
-        return;
-    }
-
-    // Trip data collect
-    const newTrip = {
-        name: document.getElementById("tripName").value,
-        price: document.getElementById("price").value,
-        location: document.getElementById("location").value,
-        description: document.getElementById("description").value,
-        image: document.getElementById("image").value
-    };
-
-    // Load existing JSON
-    let existingData = await fetch("data.json").then(r => r.json());
-
-    // Add new trip
-    existingData.trips.push(newTrip);
-
-    // Encode updated JSON
-    const updatedContent = btoa(unescape(encodeURIComponent(JSON.stringify(existingData, null, 2))));
-
-    // GitHub API details
-    const repo = "Ak-travel-agency-";
-    const username = "ashoktravel2025";
-    const file = "data.json";
-
-    // Get latest sha
-    const getFile = await fetch(`https://api.github.com/repos/${username}/${repo}/contents/${file}`);
-    const fileData = await getFile.json();
-
-    // Update file via GitHub API
-    await fetch(`https://api.github.com/repos/${username}/${repo}/contents/${file}`, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `token ${token}`
-        },
-        body: JSON.stringify({
-            message: "Trip added",
-            content: updatedContent,
-            sha: fileData.sha
-        })
-    });
-
-    alert("Trip add ho gaya! 🔥");
+// ---------- Helpers ----------
+function getAuth(){ return localStorage.getItem("gh_token") || document.getElementById("gh_token").value; }
+function getUser(){ return document.getElementById("gh_user").value || localStorage.getItem("gh_user"); }
+function getRepo(){ return document.getElementById("gh_repo").value || localStorage.getItem("gh_repo"); }
+function saveToken(){ localStorage.setItem("gh_token", document.getElementById("gh_token").value); localStorage.setItem("gh_user", document.getElementById("gh_user").value); localStorage.setItem("gh_repo", document.getElementById("gh_repo").value); alert("Token saved locally."); }
+function logoutToken(){ localStorage.removeItem("gh_token"); alert("Token removed from browser."); }
+async function testAuth(){
+  const token=getAuth(); const user=getUser(); const repo=getRepo();
+  if(!token || !user || !repo){ alert("Username / repo / token chahiye"); return; }
+  const res=await fetch(`https://api.github.com/repos/${user}/${repo}`, {headers:{"Authorization":"token "+token}});
+  if(res.ok) alert("Auth OK — repo reachable.");
+  else alert("Auth failed. Check token/username/repo.");
 }
+function b64Encode(str){ return btoa(unescape(encodeURIComponent(str))); }
+
+// Fetch raw JSON from repo (via raw GitHub pages or API)
+async function fetchJSONFile(name){
+  // Try raw first (faster)
+  const rawUrl = `https://raw.githubusercontent.com/${getUser()}/${getRepo()}/main/${name}`;
+  try{
+    const r = await fetch(rawUrl);
+    if(r.ok) return await r.json();
+  }catch(e){}
+  // fallback to GitHub API
+  const token=getAuth();
+  const r2 = await fetch(`https://api.github.com/repos/${getUser()}/${getRepo()}/contents/${name}`, {headers: token?{"Authorization":"token "+token}:{}});
+  if(!r2.ok) throw new Error("File fetch failed: "+name);
+  const j = await r2.json();
+  return JSON.parse(decodeURIComponent(escape(atob(j.content))));
+}
+
+// Get sha of file (needed to update)
+async function getFileSha(name){
+  const token=getAuth();
+  const r = await fetch(`https://api.github.com/repos/${getUser()}/${getRepo()}/contents/${name}`, {headers: token?{"Authorization":"token "+token}:{}});
+  if(!r.ok) return null;
+  const j = await r.json();
+  return j.sha;
+}
+
+// Update file via GitHub API
+async function updateJSONFile(name, obj, message="update via admin"){
+  const token=getAuth();
+  if(!token){ alert("Token required for write."); return; }
+  const content = b64Encode(JSON.stringify(obj, null, 2));
+  const sha = await getFileSha(name);
+  const res = await fetch(`https://api.github.com/repos/${getUser()}/${getRepo()}/contents/${name}`, {
+    method: "PUT",
+    headers: {"Authorization":"token "+token,"Content-Type":"application/json"},
+    body: JSON.stringify({message,content,sha})
+  });
+  const j = await res.json();
+  if(res.ok) { console.log("Updated", name); return j; }
+  else { console.error(j); alert("Update failed: "+(j.message||"")); throw j; }
+}
+
+// ---------- SETTINGS ----------
+async function loadSettings(){
+  try{
+    const s = await fetchJSONFile("settings.json");
+    document.getElementById("siteName").value = s.siteName || "";
+    document.getElementById("logoUrl").value = s.logo || "";
+    document.getElementById("themeSelect").value = s.theme || "dark";
+    document.getElementById("heroOn").checked = !!s.heroOn;
+    document.getElementById("aboutOn").checked = !!s.aboutOn;
+    document.getElementById("servicesOn").checked = !!s.servicesOn;
+    document.getElementById("galleryOn").checked = !!s.galleryOn;
+    document.getElementById("testimonialsOn").checked = !!s.testimonialsOn;
+    document.getElementById("contactOn").checked = !!s.contactOn;
+    document.getElementById("popupText").value = (s.popup && s.popup.text) || "";
+    document.getElementById("popupImage").value = (s.popup && s.popup.image) || "";
+    document.getElementById("popupEnabled").checked = !!(s.popup && s.popup.enabled);
+    document.getElementById("footerEmail").value = (s.footer && s.footer.email) || "";
+    document.getElementById("footerPhone").value = (s.footer && s.footer.phone) || "";
+    document.getElementById("footerAddress").value = (s.footer && s.footer.address) || "";
+    document.getElementById("footerWhatsapp").value = (s.footer && s.footer.social && s.footer.social.whatsapp) || "";
+    document.getElementById("seoTitle").value = (s.seo && s.seo.title) || "";
+    document.getElementById("seoDesc").value = (s.seo && s.seo.description) || "";
+    document.getElementById("seoKeys").value = (s.seo && s.seo.keywords) || "";
+    alert("Settings loaded.");
+  }catch(e){ console.error(e); alert("Load settings failed."); }
+}
+
+async function saveSettings(){
+  try{
+    const current = await fetchJSONFile("settings.json").catch(()=>({}));
+    const s = {
+      siteName: document.getElementById("siteName").value,
+      logo: document.getElementById("logoUrl").value,
+      theme: document.getElementById("themeSelect").value,
+      heroOn: document.getElementById("heroOn").checked,
+      aboutOn: document.getElementById("aboutOn").checked,
+      servicesOn: document.getElementById("servicesOn").checked,
+      galleryOn: document.getElementById("galleryOn").checked,
+      testimonialsOn: document.getElementById("testimonialsOn").checked,
+      contactOn: document.getElementById("contactOn").checked,
+      popup: {
+        enabled: document.getElementById("popupEnabled").checked,
+        text: document.getElementById("popupText").value,
+        image: document.getElementById("popupImage").value
+      },
+      seo: {
+        title: document.getElementById("seoTitle").value,
+        description: document.getElementById("seoDesc").value,
+        keywords: document.getElementById("seoKeys").value
+      },
+      footer: {
+        email: document.getElementById("footerEmail").value,
+        phone: document.getElementById("footerPhone").value,
+        address: document.getElementById("footerAddress").value,
+        social: { whatsapp: document.getElementById("footerWhatsapp").value }
+      },
+      maintenanceMode: current.maintenanceMode || false
+    };
+    await updateJSONFile("settings.json", s, "Update site settings");
+    alert("Settings saved.");
+  }catch(e){ console.error(e); alert("Save failed."); }
+}
+
+async function toggleMaintenance(){
+  try{
+    const s = await fetchJSONFile("settings.json");
+    s.maintenanceMode = !s.maintenanceMode;
+    await updateJSONFile("settings.json", s, s.maintenanceMode ? "Enable maintenance" : "Disable maintenance");
+    alert("Maintenance toggled: "+s.maintenanceMode);
+  }catch(e){ console.error(e); alert("Toggle failed."); }
+}
+
+// ---------- SLIDER ----------
+async function loadSlides(){
+  const box = document.getElementById("slidesList"); box.innerHTML="Loading...";
+  try{
+    const s = await fetchJSONFile("slider.json");
+    box.innerHTML = s.slides.map((sl,i)=>`<div style="padding:6px;border-bottom:1px solid #0b1a2b">
+      <b>${sl.title||"Untitled"}</b><div class="small">${sl.subtitle||""}</div>
+      <div class="small">${sl.image||""}</div>
+      <button onclick="deleteSlide(${i})" class="btn danger inline">Delete</button>
+    </div>`).join("") || "<div class='small'>No slides</div>";
+  }catch(e){ box.innerHTML="Error loading slides"; console.error(e); }
+}
+
+async function addSlide(){
+  const image=document.getElementById("slideImage").value, title=document.getElementById("slideTitle").value, sub=document.getElementById("slideSub").value;
+  if(!image){ alert("Image URL required"); return; }
+  const s = await fetchJSONFile("slider.json").catch(()=>({slides:[]}));
+  s.slides.push({image,title,subtitle:sub});
+  await updateJSONFile("slider.json", s, "Add slide");
+  document.getElementById("slideImage").value=""; document.getElementById("slideTitle").value=""; document.getElementById("slideSub").value="";
+  loadSlides();
+}
+
+// delete slide
+async function deleteSlide(i){
+  if(!confirm("Delete slide?")) return;
+  const s = await fetchJSONFile("slider.json");
+  s.slides.splice(i,1);
+  await updateJSONFile("slider.json", s, "Delete slide");
+  loadSlides();
+}
+
+// ---------- SERVICES / TRIPS ----------
+async function loadServices(){
+  const box=document.getElementById("servicesList"); box.innerHTML="Loading...";
+  try{
+    const s = await fetchJSONFile("services.json");
+    box.innerHTML = (s.services||[]).map((sv,i)=>`<div style="padding:6px;border-bottom:1px solid #0b1a2b">
+      <b>${sv.name}</b><div class="small">${sv.location} — ₹${sv.price}</div>
+      <div class="small">${sv.description||""}</div>
+      <button onclick="deleteService(${i})" class="btn danger inline">Delete</button>
+    </div>`).join("") || "<div class='small'>No services</div>";
+  }catch(e){ box.innerHTML="Error"; console.error(e); }
+}
+
+async function addService(){
+  const name=document.getElementById("tripName").value, price=document.getElementById("tripPrice").value, location=document.getElementById("tripLocation").value, desc=document.getElementById("tripDesc").value, img=document.getElementById("tripImage").value;
+  if(!name){ alert("Name required"); return; }
+  const s= await fetchJSONFile("services.json").catch(()=>({services:[]}));
+  s.services.push({name,price,location,description:desc,image:img,created:new Date().toISOString()});
+  await updateJSONFile("services.json", s, "Add service");
+  loadServices();
+}
+
+async function deleteService(i){
+  if(!confirm("Delete service?")) return;
+  const s = await fetchJSONFile("services.json");
+  s.services.splice(i,1);
+  await updateJSONFile("services.json", s, "Delete service");
+  loadServices();
+}
+
+// ---------- GALLERY ----------
+async function loadGallery(){
+  const box=document.getElementById("galleryList"); box.innerHTML="Loading...";
+  try{
+    const g = await fetchJSONFile("gallery.json");
+    box.innerHTML = (g.images||[]).map((im,i)=>`<div style="padding:6px;border-bottom:1px solid #0b1a2b">
+      <img src="${im.url}" style="height:60px;margin-right:8px;vertical-align:middle"/><b>${im.caption||""}</b>
+      <div class="small">${im.url}</div>
+      <button onclick="deleteGallery(${i})" class="btn danger inline">Delete</button>
+    </div>`).join("") || "<div class='small'>No images</div>";
+  }catch(e){ box.innerHTML="Error"; console.error(e); }
+}
+
+async function addGalleryImage(){
+  const url=document.getElementById("galleryImage").value, caption=document.getElementById("galleryCaption").value;
+  if(!url){ alert("Image URL required"); return; }
+  const g = await fetchJSONFile("gallery.json").catch(()=>({images:[]}));
+  g.images.push({url,caption,created:new Date().toISOString()});
+  await updateJSONFile("gallery.json", g, "Add gallery image");
+  loadGallery();
+}
+
+async function deleteGallery(i){
+  if(!confirm("Delete image?")) return;
+  const g = await fetchJSONFile("gallery.json");
+  g.images.splice(i,1);
+  await updateJSONFile("gallery.json", g, "Delete gallery image");
+  loadGallery();
+}
+
+// ---------- BLOG ----------
+async function loadPosts(){
+  const box=document.getElementById("postsList"); box.innerHTML="Loading...";
+  try{
+    const b = await fetchJSONFile("blog.json");
+    box.innerHTML = (b.posts||[]).map((p,i)=>`<div style="padding:6px;border-bottom:1px solid #0b1a2b">
+      <b>${p.title}</b><div class="small">${p.excerpt||""}</div>
+      <div class="small">${p.thumb||""}</div>
+      <button onclick="deletePost(${i})" class="btn danger inline">Delete</button>
+    </div>`).join("") || "<div class='small'>No posts</div>";
+  }catch(e){ box.innerHTML="Error"; console.error(e); }
+}
+
+async function addPost(){
+  const title=document.getElementById("postTitle").value, excerpt=document.getElementById("postExcerpt").value, content=document.getElementById("postContent").value, thumb=document.getElementById("postThumb").value;
+  if(!title){ alert("Title required"); return; }
+  const b = await fetchJSONFile("blog.json").catch(()=>({posts:[]}));
+  b.posts.push({title,excerpt,content,thumb,created:new Date().toISOString()});
+  await updateJSONFile("blog.json", b, "Add blog post");
+  loadPosts();
+}
+
+async function deletePost(i){
+  if(!confirm("Delete post?")) return;
+  const b = await fetchJSONFile("blog.json");
+  b.posts.splice(i,1);
+  await updateJSONFile("blog.json", b, "Delete blog post");
+  loadPosts();
+}
+
+// ---------- MESSAGES ----------
+async function loadMessages(){
+  const box=document.getElementById("messagesList"); box.innerHTML="Loading...";
+  try{
+    const m = await fetchJSONFile("messages.json");
+    box.innerHTML = (m.messages||[]).map((ms,i)=>`<div style="padding:6px;border-bottom:1px solid #0b1a2b">
+      <b>${ms.name||"Anon"}</b> <span class="small">${ms.date||""}</span>
+      <div class="small">${ms.email||""} — ${ms.phone||""}</div>
+      <div>${ms.message||""}</div>
+      <button onclick="deleteMessage(${i})" class="btn danger inline">Delete</button>
+    </div>`).join("") || "<div class='small'>No messages</div>";
+  }catch(e){ box.innerHTML="Error"; console.error(e); }
+}
+
+async function deleteMessage(i){
+  if(!confirm("Delete message?")) return;
+  const m = await fetchJSONFile("messages.json");
+  m.messages.splice(i,1);
+  await updateJSONFile("messages.json", m, "Delete message");
+  loadMessages();
+}
+
+async function clearMessages(){
+  if(!confirm("Clear all messages?")) return;
+  await updateJSONFile("messages.json", {messages:[]}, "Clear messages");
+  loadMessages();
+}
+
+// ---------- USERS ----------
+async function loadUsers(){
+  const box=document.getElementById("usersList"); box.innerHTML="Loading...";
+  try{
+    const u = await fetchJSONFile("users.json");
+    box.innerHTML = (u.users||[]).map((us,i)=>`<div style="padding:6px;border-bottom:1px solid #0b1a2b">
+      <b>${us.username}</b> <span class="small">${us.role||""}</span>
+      <div class="small">${us.note||""}</div>
+      <button onclick="deleteUser(${i})" class="btn danger inline">Delete</button>
+    </div>`).join("") || "<div class='small'>No users</div>";
+  }catch(e){ box.innerHTML="Error"; console.error(e); }
+}
+
+async function addUser(){
+  const name=document.getElementById("newUserName").value, role=document.getElementById("newUserRole").value;
+  if(!name){ alert("Username required"); return; }
+  const u = await fetchJSONFile("users.json").catch(()=>({users:[]}));
+  u.users.push({username:name,role,created:new Date().toISOString()});
+  await updateJSONFile("users.json", u, "Add user");
+  loadUsers();
+}
+
+async function deleteUser(i){
+  if(!confirm("Delete user?")) return;
+  const u = await fetchJSONFile("users.json");
+  u.users.splice(i,1);
+  await updateJSONFile("users.json", u, "Delete user");
+  loadUsers();
+}
+
+// ---------- NOTIFICATIONS ----------
+function sendNotification(){
+  const txt=document.getElementById("notifyText").value||"Notification";
+  // simple browser notify
+  alert("Notification: "+txt);
+  console.log("Notification sent:",txt);
+}
+
+// ---------- BACKUP / EXPORT / RESTORE ----------
+async function exportBackup(){
+  // fetch all JSON files and create a downloadable .json blob
+  const files = ["settings.json","slider.json","services.json","gallery.json","blog.json","messages.json","users.json","data.json"];
+  const obj = {};
+  for(const f of files){
+    try{ obj[f]=await fetchJSONFile(f); }catch(e){ obj[f]=null; }
+  }
+  const blob = new Blob([JSON.stringify(obj,null,2)], {type:"application/json"});
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="backup_"+new Date().toISOString()+".json"; a.click();
+}
+
+function restoreFile(){
+  const input=document.getElementById("restoreFile");
+  if(!input.files || !input.files[0]){ alert("Choose JSON file"); return; }
+  const fr=new FileReader();
+  fr.onload=function(){
+    try{
+      const data=JSON.parse(fr.result);
+      // If top-level is map of files, allow user to choose which to restore
+      const keys=Object.keys(data);
+      if(keys.length>1 && keys.some(k=>k.endsWith(".json"))){
+        // it's backup package
+        if(confirm("Backup package detected. Restore all files?")) restoreObject(data);
+      } else {
+        // single file - ask filename
+        const fname = prompt("Enter repo filename to restore (e.g., settings.json)");
+        if(!fname) return;
+        updateJSONFile(fname, data, "Restore "+fname).then(()=>alert("Restored "+fname)).catch(e=>alert("Restore failed"));
+      }
+    }catch(e){ alert("Invalid JSON"); }
+  };
+  fr.readAsText(input.files[0]);
+}
+
+async function restoreObject(map){
+  for(const k in map){
+    if(!map.hasOwnProperty(k)) continue;
+    try{
+      await updateJSONFile(k, map[k], "Restore file "+k);
+      console.log("Restored",k);
+    }catch(e){ console.error("Fail",k,e); }
+  }
+  alert("Restore attempted for all files.");
+}
+
+// ---------- UTILITIES ----------
+async function showAllFiles(){
+  const files=["settings.json","slider.json","services.json","gallery.json","blog.json","messages.json","users.json","data.json"];
+  for(const f of files){
+    try{ console.log(f, await fetchJSONFile(f)); }catch(e){ console.warn(f,"error"); }
+  }
+  alert("Check console for JSON contents.");
+}
+
+// ---------- INIT load basic lists ----------
+(function init(){
+  // populate username/repo/token from localStorage if present
+  if(localStorage.getItem("gh_user")) document.getElementById("gh_user").value = localStorage.getItem("gh_user");
+  if(localStorage.getItem("gh_repo")) document.getElementById("gh_repo").value = localStorage.getItem("gh_repo");
+  if(localStorage.getItem("gh_token")) document.getElementById("gh_token").value = localStorage.getItem("gh_token");
+  // initial loads
+  loadSlides(); loadServices(); loadGallery(); loadPosts(); loadMessages(); loadUsers(); loadSettings();
+})();
 </script>
+
+<!-- Instructions summary -->
+<hr style="border:none;height:1px;background:#122233;margin-top:18px"/>
+<div class="small">
+  <b>Token setup (quick):</b>
+  <ol>
+    <li>GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic) → Generate new token.</li>
+    <li>Give repo scope (public_repo). Copy token and paste in Admin → Save Token.</li>
+    <li>Token is stored in your browser only. For security, do not share token.</li>
+  </ol>
+  <b>Notes:</b> This admin edits files in the repo root (main branch). Keep backups before big edits.
+</div>
 
 </body>
 </html>
+
