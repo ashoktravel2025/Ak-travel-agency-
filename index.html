@@ -3,88 +3,181 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Jaisalmer Trip - AK Travel Agency</title>
+<title>AK Travel Agency</title>
+
 <style>
+/* GLOBAL DARK THEME */
 body {
-  margin: 0;
-  font-family: 'Poppins', sans-serif;
-  background: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=80') no-repeat center center/cover;
-  color: white;
-  backdrop-filter: brightness(0.8);
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: #0d0d0d;
+    color: white;
 }
-.overlay {
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.55);
-  padding: 40px;
+
+/* NAVBAR */
+.navbar {
+    width: 100%;
+    background: rgba(0,0,0,0.85);
+    padding: 18px 0;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    backdrop-filter: blur(6px);
+    z-index: 10;
 }
-.container {
-  max-width: 900px;
-  margin: auto;
-  background: rgba(255,255,255,0.1);
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.8);
+
+.navbar a {
+    color: white;
+    margin: 0 25px;
+    font-size: 20px;
+    text-decoration: none;
+    font-weight: 600;
 }
-h1 {
-  text-align: center;
-  font-size: 48px;
-  margin-bottom: 10px;
+
+.navbar a:hover {
+    color: #ffd700;
 }
-h2 {
-  margin-top: 30px;
-  font-size: 28px;
+
+/* HERO */
+.hero {
+    height: 80vh;
+    background: url('https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1600&q=80')
+        no-repeat center center/cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    padding-top: 100px;
 }
-ul {
-  font-size: 18px;
-  line-height: 1.7;
+
+.hero h1 {
+    font-size: 60px;
+    font-weight: 700;
+    text-shadow: 3px 3px 15px #000;
 }
-.btn {
-  display: block;
-  width: 220px;
-  margin: 35px auto;
-  padding: 15px 20px;
-  background: #ffd700;
-  color: black;
-  text-align: center;
-  font-size: 22px;
-  font-weight: 600;
-  border-radius: 10px;
-  text-decoration: none;
-  box-shadow: 0 0 12px #000;
+
+.hero p {
+    font-size: 23px;
+    margin-top: 10px;
+    text-shadow: 3px 3px 15px #000;
 }
-.btn:hover {
-  background: white;
+
+/* TRIP SECTION */
+.trip-section {
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.trip-section h2 {
+    font-size: 36px;
+    margin-bottom: 40px;
+}
+
+/* TRIP CARDS */
+.trip-cards {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.card {
+    width: 350px;
+    height: 450px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(255,255,255,0.1);
+    position: relative;
+    cursor: pointer;
+}
+
+.card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(60%);
+}
+
+.card-content {
+    position: absolute;
+    bottom: 0;
+    padding: 20px;
+    width: 100%;
+    background: rgba(0,0,0,0.45);
+}
+
+.card-content h3 {
+    font-size: 26px;
+}
+
+.card-content p {
+    margin: 6px 0;
+    font-size: 18px;
+}
+
+.card a {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 18px;
+    background: #ffd700;
+    border-radius: 10px;
+    color: black;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.card a:hover {
+    background: white;
 }
 </style>
 </head>
+
 <body>
-<div class="overlay">
-  <div class="container">
-    <h1>Jaisalmer Desert Trip</h1>
-    <p style="text-align:center; font-size:20px;">5 Days Premium Package — <b>₹7,999 per person</b></p>
 
-    <h2>🏜 Trip Highlights</h2>
-    <ul>
-      <li>Desert Safari in Thar Desert</li>
-      <li>Luxury Swiss Tents Stay</li>
-      <li>Camel Ride During Sunset</li>
-      <li>Jaisalmer Fort & Heritage City Tour</li>
-      <li>Traditional Rajasthani Food & Cultural Show</li>
-    </ul>
-
-    <h2>📅 Day-wise Itinerary</h2>
-    <ul>
-      <li><b>Day 1:</b> Arrival & Hotel Check-In</li>
-      <li><b>Day 2:</b> Jaisalmer Fort + Local Sightseeing</li>
-      <li><b>Day 3:</b> Sam Sand Dunes + Camel Safari</li>
-      <li><b>Day 4:</b> Cultural Night + Camping</li>
-      <li><b>Day 5:</b> Checkout & Return</li>
-    </ul>
-
-    <a href="#" class="btn">Book Now</a>
-  </div>
+<!-- NAV -->
+<div class="navbar">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="camera.html">Camera Setup</a>
+    <a href="vehicle.html">Vehicles</a>
+    <a href="contact.html">Contact</a>
 </div>
+
+<!-- HERO -->
+<div class="hero">
+    <h1>AK Travel Agency</h1>
+    <p>Premium & Luxury Travel Experience</p>
+</div>
+
+<!-- TRIP SECTION -->
+<div class="trip-section">
+    <h2>Our Premium Trips</h2>
+
+    <div class="trip-cards">
+
+        <!-- JAISALMER TRIP -->
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1400&q=80">
+            <div class="card-content">
+                <h3>Jaisalmer Desert Trip</h3>
+                <p>₹7,999 per person</p>
+                <a href="jaisalmer.html">View Details</a>
+            </div>
+        </div>
+
+        <!-- MANALI TRIP -->
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1500048993953-d23a436266cf?auto=format&fit=crop&w=1400&q=80">
+            <div class="card-content">
+                <h3>Manali Mountain Trip</h3>
+                <p>₹9,999 per person</p>
+                <a href="manali.html">View Details</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
 </body>
 </html>
 
