@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel - Trip Manager</title>
+    <style>
+        body {
+            font-family: Arial;
+            padding: 20px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+        }
+        button {
+            padding: 12px;
+            width: 100%;
+            background: #0066ff;
+            color: white;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #004ecc;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Trip Add Karne Ka Admin Panel</h2>
+
+<label>GitHub Token:</label>
+<input id="token" type="password" placeholder="Personal Access Token">
+
+<label>Trip Name:</label>
+<input id="tripName">
+
+<label>Price:</label>
+<input id="price">
+
+<label>Location:</label>
+<input id="location">
+
+<label>Description:</label>
+<textarea id="description" rows="4"></textarea>
+
+<label>Image URL:</label>
+<input id="image">
+
+<button onclick="addTrip()">Add Trip</button>
+
+<script>
+async function addTrip() {
+    const token = document.getElementById("token").value;
+
+    if (!token) {
+        alert("Token daal bhai (GitHub Personal Access Token)");
+        return;
+    }
+
+    // Trip data collect
+    const newTrip = {
+        name: document.getElementById("tripName").value,
+        price: document.getElementById("price").value,
+        location: document.getElementById("location").value,
+        description: document.getElementById("description").value,
+        image: document.getElementById("image").value
+    };
+
+    // Load existing JSON
+    let existingData = await fetch("data.json").then(r => r.json());
+
+    // Add new trip
+    existingData.trips.push(newTrip);
+
+    // Encode updated JSON
+    const updatedContent = btoa(unescape(encodeURIComponent(JSON.stringify(existingData, null, 2))));
+
+    // GitHub API details
+    const repo = "Ak-travel-agency-";
+    const username = "ashoktravel2025";
+    const file = "data.json";
+
+    // Get latest sha
+    const getFile = await fetch(`https://api.github.com/repos/${username}/${repo}/contents/${file}`);
+    const fileData = await getFile.json();
+
+    // Update file via GitHub API
+    await fetch(`https://api.github.com/repos/${username}/${repo}/contents/${file}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `token ${token}`
+        },
+        body: JSON.stringify({
+            message: "Trip added",
+            content: updatedContent,
+            sha: fileData.sha
+        })
+    });
+
+    alert("Trip add ho gaya! 🔥");
+}
+</script>
+
+</body>
+</html>
