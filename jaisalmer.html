@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Jaisalmer Trip — AK Travel</title>
+<style>
+:root{--accent1:#7c3aed;--accent2:#06b6d4;--gold:#ffd700}
+body{margin:0;font-family:Poppins,system-ui,Arial;color:#fff;background:#071227}
+nav{position:fixed;top:0;left:0;right:0;padding:14px 24px;background:rgba(0,0,0,0.85);display:flex;justify-content:space-between;align-items:center;z-index:40}
+nav a{color:#fff;margin:0 10px;text-decoration:none;font-weight:700}
+.hero{height:44vh;background-image:url('/mnt/data/7c4885a2-7fa2-4280-beed-e75699baadbd.png');background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;margin-top:56px}
+.hero-inner{background:rgba(0,0,0,0.45);padding:24px;border-radius:12px;text-align:center}
+.container{max-width:980px;margin:28px auto;padding:18px}
+.card{background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));padding:18px;border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,0.6)}
+table{width:100%;border-collapse:collapse;margin-top:12px}
+th,td{padding:10px;border:1px solid rgba(255,255,255,0.06);text-align:left}
+.seat-btn{padding:8px 10px;border-radius:8px;border:0;background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#fff;font-weight:700;cursor:pointer}
+.booked{background:#444;color:#bbb;cursor:not-allowed}
+.modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);z-index:80}
+.modal .box{background:#081226;padding:20px;border-radius:12px;max-width:420px;width:100%}
+.input{width:100%;padding:10px;margin:8px 0;border-radius:8px;border:1px solid rgba(255,255,255,0.08);background:transparent;color:#fff}
+.actions{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
+.link-btn{padding:10px 14px;border-radius:8px;background:var(--gold);color:#000;text-decoration:none;font-weight:700}
+.small{font-size:13px;color:#cbd5e1}
+.footer{padding:18px;text-align:center;color:#94a3b8;margin-top:18px}
+@media(max-width:720px){.hero{height:36vh}.container{padding:10px}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div style="font-weight:800;color:var(--gold)">AK</div>
+  <div>
+    <a href="index.html">Home</a>
+    <a href="vehicle.html">Vehicles</a>
+    <a href="camera.html">Camera</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <h1 style="margin:0">Jaisalmer Desert Trip</h1>
+    <div class="small">5 Days • ₹7,999 / person</div>
+  </div>
+</section>
+
+<div class="container">
+  <div class="card">
+    <h2>Book Your Seat — 10 Seats Available</h2>
+    <p class="small">Click Book on any available seat. Once booked it will show BOOKED and others can't take it.</p>
+
+    <table id="seatTable">
+      <thead><tr><th>Seat #</th><th>Status</th><th>Action</th></tr></thead>
+      <tbody>
+        <!-- JS will render rows -->
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- modal -->
+<div id="modal" class="modal">
+  <div class="box">
+    <h3 id="modalTitle">Book Seat</h3>
+    <input id="custName" class="input" placeholder="Your full name" />
+    <input id="custPhone" class="input" placeholder="Mobile number (10 digits)" />
+    <div style="display:flex;gap:8px;align-items:center;justify-content:space-between;margin-top:6px">
+      <div class="small">WhatsApp / Call: <b>7878297854</b></div>
+      <div class="actions">
+        <button id="cancelBtn" class="link-btn" style="background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.06)">Cancel</button>
+        <button id="confirmBtn" class="link-btn">Confirm & Send</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">© 2025 AK Travel Agency</div>
+
+<script>
+// config
+const PHONE = '917878297854'; // WhatsApp number in international format without + (India example)
+const STORAGE_KEY = 'jaisalmer_seats_v1'; // localStorage key
+
+// init seats (10 seats)
+const totalSeats = 10;
+let seats = [];
+
+// load from storage or init
+function loadSeats(){
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if(raw){
+    seats = JSON.parse(raw);
+    // if length mismatch, refill
+    if(!Array.isArray(seats) || seats.length !== totalSeats) seats = Array.from({length: totalSeats}, ()=>({booked:false,name:'',phone:''}));
+  } else {
+    seats = Array.from({length: totalSeats}, ()=>({booked:false,name:'',phone:''}));
+  }
+}
+
+// save seats
+function saveSeats(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(seats)); }
+
+// render table
+function renderSeats(){
+  const tbody = document.querySelector('#seatTable tbody');
+  tbody.innerHTML = '';
+  seats.forEach((s,i)=>{
+    const tr = document.createElement('tr');
+    const idx = i+1;
+    tr.innerHTML = `<td>#${idx}</td>
+      <td>${s.booked ? '<strong style="color:#ffd700">BOOKED</strong><div class="small">${s.name} • ${s.phone}</div>' : '<span class="small">Available</span>'}</td>
+      <td></td>`;
+    const tdAction = tr.querySelectorAll('td')[2];
+    const btn = document.createElement('button');
+    btn.className = 'seat-btn';
+    btn.innerText = s.booked ? 'BOOKED' : 'Book';
+    if(s.booked){ btn.classList.add('booked'); btn.disabled = true; }
+    btn.addEventListener('click', ()=>openModal(i));
+    tdAction.appendChild(btn);
+    tbody.appendChild(tr);
+  });
+}
+
+// modal logic
+let currentSeat = null;
+const modal = document.getElementById('modal');
+const custName = document.getElementById('custName');
+const custPhone = document.getElementById('custPhone');
+document.getElementById('cancelBtn').addEventListener('click', closeModal);
+
+function openModal(index){
+  currentSeat = index;
+  custName.value = '';
+  custPhone.value = '';
+  modal.style.display = 'flex';
+}
+
+function closeModal(){ modal.style.display = 'none'; currentSeat = null; }
+
+document.getElementById('confirmBtn').addEventListener('click', ()=>{
+  const name = custName.value.trim();
+  const phone = custPhone.value.trim();
+  if(!name || !phone){ alert('Please enter name and phone'); return; }
+  // mark seat booked
+  seats[currentSeat] = {booked:true,name,phone};
+  saveSeats();
+  renderSeats();
+  // send WhatsApp message
+  const seatNo = currentSeat+1;
+  const text = encodeURIComponent(`Booking Request: Jaisalmer Trip\nSeat: ${seatNo}\nName: ${name}\nPhone: ${phone}\nPackage: 5 Days - ₹7,999`);
+  window.open(`https://wa.me/${PHONE}?text=${text}`, '_blank');
+  closeModal();
+});
+
+// initialize
+loadSeats();
+renderSeats();
+</script>
+
+</body>
+</html>
