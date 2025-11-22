@@ -1,0 +1,32 @@
+{
+  "siteName": "AK Travel Agency",
+  "logo": "",
+  "theme": "dark",
+  "heroOn": true,
+  "aboutOn": true,
+  "servicesOn": true,
+  "galleryOn": true,
+  "testimonialsOn": true,
+  "contactOn": true,
+  "popup": {
+    "enabled": false,
+    "text": "",
+    "image": ""
+  },
+  "seo": {
+    "title": "AK Travel Agency",
+    "description": "Premium & Luxury Travel Experiences",
+    "keywords": "travel, holiday, tour"
+  },
+  "footer": {
+    "email": "",
+    "phone": "",
+    "address": "",
+    "social": {
+      "facebook": "",
+      "instagram": "",
+      "whatsapp": ""
+    }
+  },
+  "maintenanceMode": false
+}
