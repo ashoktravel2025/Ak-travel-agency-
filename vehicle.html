@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ashok Travel — Fleet & Videography</title>
+  <meta name="description" content="Ashok Travel — premium fleet & pro videography services" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#04121b; --muted:#98a8b9; --accent1:#7c3aed; --accent2:#06b6d4; --glass:rgba(255,255,255,0.04);
+      --card-bg: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      --maxw:1200px;
+      --radius:14px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;color:#eaf2fb;background:linear-gradient(180deg,#021018 0%, #041827 100%)}
+    .wrap{max-width:var(--maxw);margin:28px auto;padding:28px}
+
+    header{display:flex;align-items:center;justify-content:space-between;gap:18px}
+    .brand{display:flex;align-items:center;gap:14px}
+    .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:800;color:white}
+    nav{display:flex;gap:16px;align-items:center}
+    nav a{color:rgba(255,255,255,0.9);text-decoration:none;padding:8px 10px;border-radius:10px;font-weight:600}
+    nav a:hover{background:var(--glass)}
+    .btn-primary{background:linear-gradient(90deg,var(--accent1),var(--accent2));padding:8px 14px;border-radius:12px;color:#fff;text-decoration:none;font-weight:700}
+
+    h1{font-size:32px;margin:6px 0 0}
+    p.muted{color:var(--muted)}
+
+    /* hero */
+    .hero{display:flex;gap:24px;align-items:center;margin-top:18px}
+    .hero-left{flex:1}
+    .hero-right{width:420px;border-radius:var(--radius);overflow:hidden;box-shadow:0 20px 60px rgba(2,6,23,0.6)}
+    .hero-img{width:100%;height:280px;background-size:cover;background-position:center;display:block}
+
+    /* fleet grid */
+    .fleet-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:28px}
+    .fleet-card{background:var(--card-bg);padding:18px;border-radius:12px;box-shadow:0 12px 32px rgba(2,6,23,0.5);display:flex;flex-direction:column;gap:12px}
+    .fleet-thumb{height:160px;border-radius:10px;background-size:cover;background-position:center;box-shadow:inset 0 -20px 40px rgba(0,0,0,0.25)}
+    .fleet-title{font-weight:700;font-size:18px;margin:0}
+    .fleet-desc{color:var(--muted);margin:0}
+    .fleet-meta{display:flex;justify-content:space-between;align-items:center;margin-top:auto}
+    .badge{background:linear-gradient(90deg,var(--accent1),var(--accent2));padding:6px 10px;border-radius:10px;color:#fff;font-weight:700;font-size:13px}
+
+    /* equipment */
+    .equip-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:20px}
+    .equip-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:14px;border-radius:12px;text-align:center}
+
+    /* contact footer */
+    .contact{margin-top:28px;display:flex;gap:18px;align-items:center;justify-content:space-between}
+    .contact .card{background:var(--card-bg);padding:16px;border-radius:12px;box-shadow:0 10px 30px rgba(2,6,23,0.45)}
+    footer{margin-top:36px;color:var(--muted);font-size:14px;text-align:center}
+
+    @media(max-width:1000px){.fleet-grid{grid-template-columns:repeat(2,1fr)}.equip-grid{grid-template-columns:repeat(2,1fr)}.hero{flex-direction:column}.hero-right{width:100%}}
+    @media(max-width:520px){nav{display:none}.fleet-grid{grid-template-columns:1fr}.equip-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo">AT</div>
+        <div>
+          <div style="font-weight:800">Ashok Travel</div>
+          <div style="color:var(--muted);font-size:13px">Luxe Journeys • Fleet & Pro Gear</div>
+        </div>
+      </div>
+
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="index.html#packages">Packages</a>
+        <a href="index.html#gallery">Gallery</a>
+        <a href="vehicle.html" style="background: rgba(255,255,255,0.03); border-radius:8px; padding:8px 10px;">Fleet</a>
+        <a href="camera.html">Camera</a>
+        <a class="btn-primary" href="index.html#contact">Book Now</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-left">
+          <h1>Our Premium Fleet & Videography</h1>
+          <p class="muted">Bolero camper 4×4, Tempo Traveller, Ertiga, Dzire — plus professional 4K camera kits & drones for cinematic shoots.</p>
+        </div>
+        <div class="hero-right">
+          <img class="hero-img" src="https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?auto=format&fit=crop&w=1200&q=80" alt="fleet hero">
+        </div>
+      </section>
+
+      <section aria-label="fleet" class="fleet-grid" id="fleet">
+        <div class="fleet-card">
+          <div class="fleet-thumb" style="background-image:url('https://images.unsplash.com/photo-1549921296-3d4b9e7b2a54?auto=format&fit=crop&w=1200&q=80')"></div>
+          <div>
+            <div class="fleet-title">Bolero Camper 4×4</div>
+            <p class="fleet-desc">Rugged off-road camper — perfect for mountains & remote shoots.</p>
+            <div class="fleet-meta"><div class="badge">Off-road Ready</div><div style="color:var(--muted)">Seats: 5+</div></div>
+          </div>
+        </div>
+
+        <div class="fleet-card">
+          <div class="fleet-thumb" style="background-image:url('https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&w=1200&q=80')"></div>
+          <div>
+            <div class="fleet-title">Tempo Traveller</div>
+            <p class="fleet-desc">Spacious group travel with AC options — ideal for large crews.</p>
+            <div class="fleet-meta"><div class="badge">Group Tours</div><div style="color:var(--muted)">Seats: 12–17</div></div>
+          </div>
+        </div>
+
+        <div class="fleet-card">
+          <div class="fleet-thumb" style="background-image:url('https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&w=1200&q=80')"></div>
+          <div>
+            <div class="fleet-title">Maruti Ertiga (2 units)</div>
+            <p class="fleet-desc">Comfortable family travel — dependable & fuel-efficient.</p>
+            <div class="fleet-meta"><div class="badge">Family</div><div style="color:var(--muted)">Units: 2</div></div>
+          </div>
+        </div>
+
+        <div class="fleet-card">
+          <div class="fleet-thumb" style="background-image:url('https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?auto=format&fit=crop&w=1200&q=80')"></div>
+          <div>
+            <div class="fleet-title">Dzire / Swift (2 units)</div>
+            <p class="fleet-desc">City transfers & quick pickups.</p>
+            <div class="fleet-meta"><div class="badge">City Rides</div><div style="color:var(--muted)">Units: 2</div></div>
+          </div>
+        </div>
+
+        <div class="fleet-card">
+          <div class="fleet-thumb" style="background-image:url('https://images.unsplash.com/photo-1519183071298-a2962be54a47?auto=format&fit=crop&w=1200&q=80')"></div>
+          <div>
+            <div class="fleet-title">Videography — 4K Camera Kit</div>
+            <p class="fleet-desc">Professional 4K cameras, gimbals, lenses and accessories for cinematic footage.</p>
+            <div class="fleet-meta"><div class="badge">Pro Gear</div><div style="color:var(--muted)">Includes drone</div></div>
+          </div>
+        </div>
+
+        <div class="fleet-card">
+          <div class="fleet-thumb" style="background-image:url('https://images.unsplash.com/photo-1504198266284-1659872e6590?auto=format&fit=crop&w=1200&q=80')"></div>
+          <div>
+            <div class="fleet-title">Aerial Drone (4K)</div>
+            <p class="fleet-desc">Stabilized aerial shots — certified pilot included.</p>
+            <div class="fleet-meta"><div class="badge">Aerial</div><div style="color:var(--muted)">Pilot: Certified</div></div>
+          </div>
+        </div>
+      </section>
+
+      <section aria-label="equipment" style="margin-top:28px">
+        <h2 style="margin:0 0 12px">Videography Equipment</h2>
+        <div class="equip-grid">
+          <div class="equip-card"><strong>4K Cinema Camera</strong><div class="muted" style="color:var(--muted);margin-top:8px">High dynamic range & pro codecs</div></div>
+          <div class="equip-card"><strong>DSLR / Mirrorless</strong><div class="muted" style="color:var(--muted);margin-top:8px">Versatile lenses for portraits & closeups</div></div>
+          <div class="equip-card"><strong>Gimbal Stabilizer</strong><div class="muted" style="color:var(--muted);margin-top:8px">Smooth tracking shots</div></div>
+          <div class="equip-card"><strong>Drone Kit</strong><div class="muted" style="color:var(--muted);margin-top:8px">4K aerial imaging</div></div>
+        </div>
+      </section>
+
+      <section id="contact" style="margin-top:28px" class="contact">
+        <div class="card" style="flex:1">
+          <h3 style="margin-top:0">Enquiry / Booking</h3>
+          <p class="muted">Tell us what you need — vehicle, crew size, dates.</p>
+          <div style="display:flex;gap:8px;margin-top:12px">
+            <input id="name" placeholder="Your name" style="flex:1;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:#eaf2fb">
+            <input id="phone" placeholder="Phone or email" style="flex:1;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:#eaf2fb">
+          </div>
+          <textarea id="details" rows="3" placeholder="Details" style="width:100%;margin-top:10px;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:#eaf2fb"></textarea>
+          <div style="margin-top:10px"><button onclick="sendReq()" class="btn-primary">Send Enquiry</button></div>
+        </div>
+
+        <div class="card" style="width:320px">
+          <h4 style="margin:0 0 8px">Contact Office</h4>
+          <div style="color:var(--muted);">Phone: +91-XXXXXXXXXX</div>
+          <div style="color:var(--muted);margin-top:6px">Email: contact@ashoktravel.com</div>
+          <div style="margin-top:12px"><a class="btn-primary" href="index.html#contact">Request Callback</a></div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer>
+      <div style="padding:18px 0">© 2025 Ashok Travel — Fleet & Cinematic Services</div>
+    </footer>
+  </div>
+
+  <script>
+    function sendReq(){
+      const nm = document.getElementById('name').value || 'Guest';
+      const details = document.getElementById('details').value || 'General enquiry';
+      alert('Thanks '+nm+' — we received your enquiry: '+details);
+    }
+  </script>
+</body>
+</html>
+
